@@ -1,22 +1,26 @@
-import argparse,requests,re
+import argparse,requests,re,asyncio,json,csv,aiohttp
 
 
 # Change Normal URL
-
-
 def normalize_url(url):
     if not re.match(r"^https?://", url):
         return "http://" + url  # Assume http if no scheme
     return url
 
+async def fetch_url(session,url,headers,timeout):
+    try:
+        async with session.get(url,headers=headers,timeout=timeout) as response:
+            return await response.text()
+    except Exception as e:
+        print("URL Error {url}: {e}")
+        return None    
 
-##Inputs
-def single_url(url,headers,timeout,retries):
-    print("Please Wait .......")
+# regex and beautifulsoup for SAML pattern filter
+
 
 
 ##Usuage
-def main():
+def arg_parser():
     parser=argparse.ArgumentParser(description="SAML URL Extractor")
     
     parser.add_argument("-u", "--url", help="Single URL ")
@@ -28,11 +32,10 @@ def main():
     args=parser.parse_args()
 
     if not args.url and not args.file:
-        parser.print_help()
-        exit(1)
+        parser.error("Please run  python3 extract.py -h ")  
 
-    print("Please Wait .....")     
+    return args    
 
 
 if __name__=="__main__":
-    main()
+     
