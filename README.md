@@ -24,6 +24,8 @@ git clone https://github.com/noob6t5/extract_saml.git
 
 cd extract_saml
 
+pip install -r requirements.txt
+
 python3 extract.py -h
 
 usage: extract.py [-h] [-u URL] [-f FILE] [--headers HEADERS]
